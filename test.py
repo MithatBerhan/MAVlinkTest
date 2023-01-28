@@ -1,3 +1,4 @@
+import sys
 from pymavlink import mavutil
 
 master = mavutil.mavlink_connection( # aracin baglantisi
@@ -18,8 +19,14 @@ def set_rc_channel_pwm(id, pwm=1500):
             master.target_system,
             master.target_component,
             *rc_channel_values)
-
-
+	    
+master.mav.command_long_send(
+    master.target_system,
+    master.target_component,
+    mavutil.mavlink.MAV_CMD_COMPONENT_ARM_DISARM,
+    0,
+    1, 0, 0, 0, 0, 0, 0)
+    
 def ileri():
     set_rc_channel_pwm(5, 1650) # ileri git    
 def geri():
